@@ -143,6 +143,10 @@ button:hover {
 	display: none;
 }
 
+.is-disabled {
+	color: rgb(196, 190, 190);
+}
+
 .clearfix::after {
   content: " ";
   display: table;

@@ -64,3 +64,58 @@ $design.on("change", () => {
     }
 });
 
+///////////// ACTIVITIES  /////////////////////
+
+// Function that disables overlaped workshops
+const overlaped = (a,b) => {
+
+    // If wokshop a is selected then b is disabled 
+    if ($activities[a].checked) {
+        $activities[b].disabled = true;
+    } else {
+        $activities[b].disabled = false;
+    }
+}
+
+// Event listener for disabling workshops if they overlap
+
+const $activities_section = $(".activities");
+const $activities = $(".activities input");
+
+$activities.on("click", (event) => {
+
+    if (event.target === $activities[1] || event.target === $activities[3]) {
+        overlaped(1,3);
+        overlaped(3,1);
+    } else if (event.target === $activities[2] || event.target === $activities[4]) {
+        overlaped(2,4);
+        overlaped(4,2);
+    }
+
+    //Adding total amount to pay
+
+    let toPay_counter = 0;
+
+    $.each($activities, (index, element) => {
+
+        if(element.checked) {
+            toPay_counter += 100;
+        }; 
+
+    })
+
+    if ($activities[0].checked) {
+        toPay_counter += 100;
+    }
+    
+    if($(".activities p")) {
+        $(".activities p").remove();
+    }
+
+    if(toPay_counter !== 0) {
+        $activities_section.append(`<p>Total: ${toPay_counter}</p>`);
+    }
+    
+    
+})
+
