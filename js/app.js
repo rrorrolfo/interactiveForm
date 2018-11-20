@@ -119,3 +119,40 @@ $activities.on("click", (event) => {
     
 })
 
+
+///////////// PAYMENT METHOD  /////////////////////
+
+const $payment = $("#payment");
+const $payment_options = $("#payment option");
+const $card_details = $("#credit-card");
+
+// Disabling first option
+$payment_options[0].disabled = true;
+// Stating Credit card as the initial value
+$payment_options[1].selected = true;
+// Hide Paypal and bitcoin payment details
+$card_details.siblings("div").addClass("is-hidden");
+
+// Event listener for when a payment method is chosen
+
+$payment.on("change", () => {
+    
+    if ($payment_options[2].selected) {
+        // Display Paypal process and hide others
+        $card_details.addClass("is-hidden");
+        $card_details.next().removeClass("is-hidden");
+        $card_details.next().next().addClass("is-hidden");
+
+    } else if ($payment_options[3].selected) {
+        // Display Bitcoin process and hide others
+        $card_details.addClass("is-hidden");
+        $card_details.next().addClass("is-hidden");
+        $card_details.next().next().removeClass("is-hidden");
+
+    } else {
+        // Display CreditCard process and hide others
+        $card_details.removeClass("is-hidden");
+        $card_details.siblings("div").addClass("is-hidden");
+    }
+
+})
