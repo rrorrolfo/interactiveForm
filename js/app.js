@@ -27,12 +27,10 @@ $shirt_color.hide();
 
 $design.on("change", () => {
 
-    //Resets value in select input
-    $color.val("")
-
     //Displays options for "JS puns"
     if ($design.val() === "js puns") {
         $shirt_color.show();
+        $color_options[0].selected = true;
         
         $color_options.each((index, element) => {
 
@@ -47,6 +45,7 @@ $design.on("change", () => {
     //Displays options for"I JS"
     } else if ($design.val() === "heart js") {
         $shirt_color.show();
+        $color_options[3].selected = true;
 
         $color_options.each((index, element) => {
 
@@ -81,6 +80,7 @@ const overlaped = (a,b) => {
 
 const $activities_section = $(".activities");
 const $activities = $(".activities input");
+let toPay_counter = 0;
 
 $activities.on("click", (event) => {
 
@@ -94,7 +94,7 @@ $activities.on("click", (event) => {
 
     //Adding total amount to pay
 
-    let toPay_counter = 0;
+    toPay_counter = 0;
 
     $.each($activities, (index, element) => {
 
@@ -156,3 +156,67 @@ $payment.on("change", () => {
     }
 
 })
+
+////////////// Form validations //////////7
+
+const $submit_button = $("button[type='submit']");
+
+// Email validation
+const $email = $("#mail");
+const email_regex = email => /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
+
+//Credit card validation
+const $card_num = $("#cc-num");
+const card_regex = card => /^\d{13,16}$/gm.test(card);
+
+//Zip validation
+const $zip = $("#zip");
+const zip_regex = zip => /^\d{5}$/gm.test(zip);
+
+//CVV validation
+const $cvv = $("#cvv");
+const cvv_regex = cvv => /^\d{3}$/gm.test(cvv);
+
+// Event listener for "Submit" action that will trigger validation of name, email, at least 1 wokshop selected, and credit card numbers validation (if this method was selected as payment method)
+
+$submit_button.on("click", event => {
+
+    //Checks for an empty name field
+    if($name.val() === "") {
+        event.preventDefault();
+    }
+
+    //checks for a valid email address
+    if(email_regex($email.val()) === false) {
+        event.preventDefault();
+    }
+
+    //checks that at least 1 workshop has been selected
+    if (toPay_counter === 0) {
+        event.preventDefault();
+    }
+
+    //Check for credit card details validation if chosen as payment method
+
+    if($payment_options[1].selected) {
+
+        //checks that card number is strictly a 13 - 16 length number
+
+        if (card_regex($card_num.val()) === false) {
+            console.log($card_num.val())
+            event.preventDefault();
+        }
+
+        //checks that zip code is strictly a 5 length number
+        if (zip_regex($zip.val()) === false) {
+            event.preventDefault();
+        }
+
+        //checks that cvv is strictly a 3 length number
+        if (cvv_regex($cvv.val()) === false) {
+            event.preventDefault();
+        } 
+    }
+});
+        
+
