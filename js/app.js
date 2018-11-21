@@ -159,41 +159,64 @@ $payment.on("change", () => {
 
 ////////////// Form validations //////////7
 
-const $submit_button = $("button[type='submit']");
+//Name validation error message
+$name.next().before("<p class='val_msg is-hidden'>The name cannot be empty</p>");
 
-// Email validation
+// Email validation and validation error message
 const $email = $("#mail");
 const email_regex = email => /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
+$email.next().before("<p class='val_msg is-hidden'>The email need to have one '@' and a domain</p>");
 
-//Credit card validation
+// Worksop validation validation error message
+$activities_section.append("<p class='val_msg is-hidden'>You need to choose at least one workshop</p>")
+
+//Credit card validation validation error message
 const $card_num = $("#cc-num");
 const card_regex = card => /^\d{13,16}$/gm.test(card);
+$card_num.parent().append("<p class='val_msg is-hidden'>Card number must be between 13 and 16 digits</p>");
 
-//Zip validation
+//Zip validation validation error message
 const $zip = $("#zip");
 const zip_regex = zip => /^\d{5}$/gm.test(zip);
+$zip.parent().append("<p class='val_msg is-hidden'>Zip must be 5 digits");
 
-//CVV validation
+//CVV validation validation error message
 const $cvv = $("#cvv");
 const cvv_regex = cvv => /^\d{3}$/gm.test(cvv);
+$cvv.parent().append("<p class='val_msg is-hidden'>CVV must be 3 digits</p>");
+
 
 // Event listener for "Submit" action that will trigger validation of name, email, at least 1 wokshop selected, and credit card numbers validation (if this method was selected as payment method)
+
+const $submit_button = $("button[type='submit']");
 
 $submit_button.on("click", event => {
 
     //Checks for an empty name field
     if($name.val() === "") {
+        // Displays validation error message
+        $name.next().removeClass("is-hidden");
+        //Prevents form submission
         event.preventDefault();
+    } else {
+        //hide the validation message if the validation is fulfilled
+        $name.next().addClass("is-hidden");
     }
 
     //checks for a valid email address
     if(email_regex($email.val()) === false) {
+        $email.next().removeClass("is-hidden");
         event.preventDefault();
+    } else {
+        $email.next().addClass("is-hidden");
     }
 
     //checks that at least 1 workshop has been selected
     if (toPay_counter === 0) {
+        $(".activities p").removeClass("is-hidden");
         event.preventDefault();
+    } else {
+        $(".activities p").addClass("is-hidden");
     }
 
     //Check for credit card details validation if chosen as payment method
@@ -203,19 +226,27 @@ $submit_button.on("click", event => {
         //checks that card number is strictly a 13 - 16 length number
 
         if (card_regex($card_num.val()) === false) {
-            console.log($card_num.val())
+            $card_num.next().removeClass("is-hidden");
             event.preventDefault();
+        } else {
+            $card_num.next().addClass("is-hidden");
         }
 
         //checks that zip code is strictly a 5 length number
         if (zip_regex($zip.val()) === false) {
+            $zip.next().removeClass("is-hidden");
             event.preventDefault();
+        } else {
+            $zip.next().addClass("is-hidden");
         }
 
         //checks that cvv is strictly a 3 length number
         if (cvv_regex($cvv.val()) === false) {
+            $cvv.next().removeClass("is-hidden");
             event.preventDefault();
-        } 
+        } else {
+            $cvv.next().addClass("is-hidden");
+        }
     }
 });
         
