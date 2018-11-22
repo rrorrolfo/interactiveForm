@@ -7,10 +7,23 @@ $(document).ready(function() {
 })
 
 //Hides extra input for job role 
+const $title = $("#title");
+const $title_options = $("#title option");
 const $job_role = $("#other-title");
 
-$job_role.hide();
+//Hide other job role field
+$job_role.addClass("is-hidden");
 
+//Event listener  for job role select input
+$title.on("change", () => {
+    //display other job role field if "other" is selected
+    if ($title_options[5].selected) {
+        $job_role.removeClass("is-hidden");
+    } else {
+    //Hide other job role field if it is not selected
+        $job_role.addClass("is-hidden");
+    }
+})
 
 /////////// T-SHIRT INFO////////////////7
 
@@ -157,97 +170,143 @@ $payment.on("change", () => {
 
 })
 
-////////////// Form validations //////////7
+////////////// FORM FIELDS VALIDATIONS //////////
 
-//Name validation error message
-$name.next().before("<p class='val_msg is-hidden'>The name cannot be empty</p>");
+//Name regular expression and validation error message
+const $name_msg = $name.next().before("<p class='val_msg is-hidden'>The name cannot be empty</p>");
 
-// Email validation and validation error message
+    //Name validation function
+    const validate_name = () => {
+
+        //Checks for an empty name field
+        if($name.val() === "") {
+            // Displays validation error message
+            $name.next().removeClass("is-hidden");
+            return false
+
+        } else {
+            //hide the validation message if the validation is fulfilled
+            $name.next().addClass("is-hidden");
+            return true
+        }
+    }
+
+// Email regular expression and validation error message
 const $email = $("#mail");
 const email_regex = email => /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
 $email.next().before("<p class='val_msg is-hidden'>The email need to have one '@' and a domain</p>");
 
-// Worksop validation validation error message
-$activities_section.append("<p class='val_msg is-hidden'>You need to choose at least one workshop</p>")
+    //email validation function
+    const validate_email = () => {
+        
+        if(email_regex($email.val()) === false) {
+        $email.next().removeClass("is-hidden");
+        return  false
 
-//Credit card validation validation error message
+        } else {
+            $email.next().addClass("is-hidden");
+            return true
+        }
+    }
+
+// Worksop validation error message
+$activities_section.append("<p class='val_msg is-hidden'>You need to choose at least one workshop</p>");
+
+    //Workshop validation function
+    const validate_workshop = () => {
+        if (toPay_counter === 0) {
+            $(".activities p").removeClass("is-hidden");
+            return false
+        } else {
+            $(".activities p").addClass("is-hidden");
+            return true
+        }
+    }
+
+//Credit card regular expression and validation error message
 const $card_num = $("#cc-num");
 const card_regex = card => /^\d{13,16}$/gm.test(card);
 $card_num.parent().append("<p class='val_msg is-hidden'>Card number must be between 13 and 16 digits</p>");
 
-//Zip validation validation error message
+//Zip validation regular expression and validation error message
 const $zip = $("#zip");
 const zip_regex = zip => /^\d{5}$/gm.test(zip);
 $zip.parent().append("<p class='val_msg is-hidden'>Zip must be 5 digits");
 
-//CVV validation validation error message
+//CVV regular expression and validation error message
 const $cvv = $("#cvv");
 const cvv_regex = cvv => /^\d{3}$/gm.test(cvv);
 $cvv.parent().append("<p class='val_msg is-hidden'>CVV must be 3 digits</p>");
 
+    // Credit card fields validation function 
+    const validate_card_field = (regex, field) => {
+        if (regex(field.val()) === false) {
+            field.next().removeClass("is-hidden");
+            return false
+        } else {
+            field.next().addClass("is-hidden");
+            return true
+        }
+    }
+
+
+///////////// Real time validations /////////////////////////////
+
+
+// Name validation
+$name.on("blur", () => {
+    validate_name();    
+});
+
+$name.on("keyup", () => {
+    validate_name();
+})
+
+// Email Validation
+
+$email.on("keyup", () => {
+    validate_email();
+});
+
+//////////////Submit event triggered validations ////////////////
 
 // Event listener for "Submit" action that will trigger validation of name, email, at least 1 wokshop selected, and credit card numbers validation (if this method was selected as payment method)
 
 const $submit_button = $("button[type='submit']");
 
+    // Function for stopping submission of form if one field is not correclty validated
+    const check_field = func => {
+        //Evaluated if field passes validation parameters
+        if (func === false) {
+            //prevents submission if validation failed (false)
+            event.preventDefault();
+        }
+    }
+
 $submit_button.on("click", event => {
 
     //Checks for an empty name field
-    if($name.val() === "") {
-        // Displays validation error message
-        $name.next().removeClass("is-hidden");
-        //Prevents form submission
-        event.preventDefault();
-    } else {
-        //hide the validation message if the validation is fulfilled
-        $name.next().addClass("is-hidden");
-    }
+    check_field(validate_name());
 
     //checks for a valid email address
-    if(email_regex($email.val()) === false) {
-        $email.next().removeClass("is-hidden");
-        event.preventDefault();
-    } else {
-        $email.next().addClass("is-hidden");
-    }
+    check_field(validate_email());
 
     //checks that at least 1 workshop has been selected
-    if (toPay_counter === 0) {
-        $(".activities p").removeClass("is-hidden");
-        event.preventDefault();
-    } else {
-        $(".activities p").addClass("is-hidden");
-    }
+    check_field(validate_workshop());
 
     //Check for credit card details validation if chosen as payment method
-
     if($payment_options[1].selected) {
 
         //checks that card number is strictly a 13 - 16 length number
-
-        if (card_regex($card_num.val()) === false) {
-            $card_num.next().removeClass("is-hidden");
-            event.preventDefault();
-        } else {
-            $card_num.next().addClass("is-hidden");
-        }
+        check_field(validate_card_field(card_regex, $card_num));
 
         //checks that zip code is strictly a 5 length number
-        if (zip_regex($zip.val()) === false) {
-            $zip.next().removeClass("is-hidden");
-            event.preventDefault();
-        } else {
-            $zip.next().addClass("is-hidden");
-        }
-
+        check_field(validate_card_field(zip_regex, $zip));
+        
         //checks that cvv is strictly a 3 length number
-        if (cvv_regex($cvv.val()) === false) {
-            $cvv.next().removeClass("is-hidden");
-            event.preventDefault();
-        } else {
-            $cvv.next().addClass("is-hidden");
-        }
+        check_field(validate_card_field(cvv_regex, $cvv));    
     }
+
 });
         
 
