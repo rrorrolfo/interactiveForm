@@ -268,6 +268,40 @@ $email.on("keyup", () => {
     validate_email();
 });
 
+$email.on("blur", () => {
+    validate_email();
+});
+
+// Card fields validation
+
+    //Card number
+$card_num.on("blur", () => {
+    validate_card_field(card_regex, $card_num);
+});
+
+$card_num.on("keyup", () => {
+    validate_card_field(card_regex, $card_num);
+});
+
+    //Zip code
+$zip.on("keyup", () => {
+    validate_card_field(zip_regex, $zip);
+});
+
+$zip.on("blur", () => {
+    validate_card_field(zip_regex, $zip);
+});
+
+    //CVV code
+
+$cvv.on("keyup", () => {
+    validate_card_field(cvv_regex, $cvv);
+})
+
+$cvv.on("blur", () => {
+    validate_card_field(cvv_regex, $cvv);
+});
+
 //////////////Submit event triggered validations ////////////////
 
 // Event listener for "Submit" action that will trigger validation of name, email, at least 1 wokshop selected, and credit card numbers validation (if this method was selected as payment method)
