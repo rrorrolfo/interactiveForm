@@ -121,12 +121,12 @@ $activities.on("click", (event) => {
         toPay_counter += 100;
     }
     
-    if($(".activities p")) {
-        $(".activities p").remove();
+    if($(".activities p.flag")) {
+        $(".activities p.flag").remove();
     }
 
     if(toPay_counter !== 0) {
-        $activities_section.append(`<p>Total: ${toPay_counter}</p>`);
+        $activities_section.append(`<p class="flag">Total: ${toPay_counter}</p>`);
     }
     
     
@@ -215,10 +215,10 @@ $activities_section.append("<p class='val_msg is-hidden'>You need to choose at l
     //Workshop validation function
     const validate_workshop = () => {
         if (toPay_counter === 0) {
-            $(".activities p").removeClass("is-hidden");
+            $(".activities p.val_msg").removeClass("is-hidden");
             return false
         } else {
-            $(".activities p").addClass("is-hidden");
+            $(".activities p.val_msg").addClass("is-hidden");
             return true
         }
     }
@@ -270,6 +270,12 @@ $email.on("keyup", () => {
 
 $email.on("blur", () => {
     validate_email();
+});
+
+// Activities validation
+
+$activities.on("change", () => {
+    validate_workshop();
 });
 
 // Card fields validation
