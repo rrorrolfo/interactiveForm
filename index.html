@@ -5,15 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Register for Full Stack Conf</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div class="container">
+	<main class="container">
     
     <header>
-      <span>Register for</span>
-      <h1>Full Stack Conf</h1>
+      
+      <h1>Full Stack Conference</h1>
     </header>
+
+
+
+    <section id="headings">
+      <h2>Register to our awesome Full Stack Conference!</h2>
+      <p>Fill the form and see you at the conference!</p>
+    </section>
 
     <form action="index.html" method="post">
               
@@ -21,10 +29,10 @@
         <legend>Basic Info</legend>
         
         <label for="name">Name:</label>
-        <input type="text" id="name" name="user_name">
+        <input type="text" id="name" name="user_name" placeholder="e.g. John Doe">
         
         <label for="mail">Email:</label>
-        <input type="email" id="mail" name="user_email">
+        <input type="email" id="mail" name="user_email" placeholder="e.g. john@example.com">
         
         <label for="title">Job Role</label>
         <select id="title" name="user_title">
@@ -78,13 +86,13 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
-        <label><input type="checkbox" name="all"> Main Conference — $200</label>
-        <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
-        <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>          
-        <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
+        <label><input type="checkbox" name="all"> Main Conference — <strong>$200</strong></label>
+        <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, <strong>$100</strong></label>
+        <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, <strong>$100</strong></label>
+        <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, <strong>$100</strong></label>
+        <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, <strong>$100</strong></label>          
+        <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, <strong>$100</strong></label>
+        <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, <strong>$100</strong></label>
                   	
       </fieldset>
       <fieldset>
@@ -102,17 +110,17 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
-        	  <input id="cc-num" name="user_cc-num" type="text">
+        	  <input id="cc-num" name="user_cc-num" type="text" placeholder="13 -16 Digits">
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
-            <input id="zip" name="user_zip" type="text"> 
+            <input id="zip" name="user_zip" type="text" placeholder="e.g. 14500"> 
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
-            <input id="cvv" name="user_cvv" type="text"> 
+            <input id="cvv" name="user_cvv" type="text" placeholder="XXX"> 
           </div>
 
           <label for="exp-month">Expiration Date:</label>
@@ -150,11 +158,11 @@
 
       </fieldset>        
         
-      <button type="submit">Register</button>
+      <button id="submit" type="submit">Register</button>
       
     </form>
 
-  </div>
+  </main>
   
   <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"

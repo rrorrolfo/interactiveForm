@@ -87,6 +87,8 @@ const overlaped = (a,b) => {
     } else {
         $activities[b].disabled = false;
     }
+
+    
 }
 
 // Event listener for disabling workshops if they overlap
@@ -126,7 +128,7 @@ $activities.on("click", (event) => {
     }
 
     if(toPay_counter !== 0) {
-        $activities_section.append(`<p class="flag">Total: ${toPay_counter}</p>`);
+        $activities_section.append(`<p class="flag">Total: <span class="total_topay">$${toPay_counter}<span></p>`);
     }
     
     
@@ -182,11 +184,13 @@ const $name_msg = $name.next().before("<p class='val_msg is-hidden'>The name can
         if($name.val() === "") {
             // Displays validation error message
             $name.next().removeClass("is-hidden");
+            $name.addClass("err_decoration");
             return false
 
         } else {
             //hide the validation message if the validation is fulfilled
             $name.next().addClass("is-hidden");
+            $name.addClass("correct_decoration");
             return true
         }
     }
@@ -201,10 +205,12 @@ $email.next().before("<p class='val_msg is-hidden'>The email need to have one '@
         
         if(email_regex($email.val()) === false) {
         $email.next().removeClass("is-hidden");
+        $email.addClass("err_decoration");
         return  false
 
         } else {
             $email.next().addClass("is-hidden");
+            $email.addClass("correct_decoration")
             return true
         }
     }
@@ -242,9 +248,11 @@ $cvv.parent().append("<p class='val_msg is-hidden'>CVV must be 3 digits</p>");
     const validate_card_field = (regex, field) => {
         if (regex(field.val()) === false) {
             field.next().removeClass("is-hidden");
+            field.addClass("err_decoration")
             return false
         } else {
             field.next().addClass("is-hidden");
+            field.addClass("correct_decoration");
             return true
         }
     }
