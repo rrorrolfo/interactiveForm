@@ -169,7 +169,6 @@ input[type="radio"] {
 
 .container {
 	margin: auto;
-	max-width: 680px;
 }
 
 .shirt div {
@@ -233,18 +232,15 @@ input[type="radio"] {
   Media Queries
 ==================================== */
 
-@media (min-width: 0) and (max-width: 679px) {
-	header {
-	}
-	button {
-		width: 100%;
-	}
-}
 
-@media (min-width: 680px) {
-	header {
-		padding: 4.65em 0 2.5em;
+@media (min-width: 768px) {
+
+	#headings,
+	form {
+		width: 60%;
+		margin: 10px auto;
 	}
+	
 	.col {
 		float: left;
 	}
